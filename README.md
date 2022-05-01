@@ -1,15 +1,14 @@
-# Basic Sample Hardhat Project
+### Why is it needed?
+Suppose you have locked liquidity on-contract which can be liquidated via `withdraw()` that depends on a require function and access control. If someone has access to the responsible EOA, they can withdraw funds when needed. A better way to go about this is to also have a password, so that incase of a private key leak, the hacker still has to enter a password. 
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts.
+### How is it implemented? 
+0. User enters password, gets hashed via Keccak256 and appended with "0x" before the hash string.
+1. User sets password via constructor when deploying (`_setNewPassword()`)
+2. User then can decide to check password (`_testPassword()`) and enter expected password and new password (since current password will be declared by on-chain data).
 
-Try running some of the following tasks:
+### Deploy and test
 
-```shell
-npx hardhat accounts
-npx hardhat compile
-npx hardhat clean
+```
+npx hardhat run --network localhost scripts/deploy.js
 npx hardhat test
-npx hardhat node
-node scripts/sample-script.js
-npx hardhat help
 ```
